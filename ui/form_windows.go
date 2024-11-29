@@ -227,6 +227,11 @@ func drawImageRGBA(hdc uintptr, img image.Image, rect *struct{ Left, Top, Right,
 //go:embed image.png
 var pngContent []byte
 
+func loadImageFromEmbed() (image.Image, error) {
+	img, err := png.Decode(bytes.NewReader(pngContent))
+	return img, err
+}
+
 func generateImage() (image.Image, error) {
 	rgba := image.NewRGBA(image.Rect(0, 0, 64, 64))
 	for y := 0; y < rgba.Rect.Dy(); y++ {
@@ -235,9 +240,4 @@ func generateImage() (image.Image, error) {
 		}
 	}
 	return rgba, nil
-}
-
-func loadImageFromEmbed() (image.Image, error) {
-	img, err := png.Decode(bytes.NewReader(pngContent))
-	return img, err
 }
